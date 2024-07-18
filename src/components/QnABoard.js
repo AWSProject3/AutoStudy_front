@@ -24,7 +24,7 @@ const QnABoard = () => {
         }
 
         console.log('Attempting to connect WebSocket...');
-        ws.current = new WebSocket(`ws://${API_DOMAIN}/api/qna/ws`);
+        ws.current = new WebSocket(`wss://${API_DOMAIN}/api/qna/ws`);
 
         ws.current.onopen = () => {
             console.log('WebSocket connected');
