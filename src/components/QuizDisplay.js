@@ -3,6 +3,7 @@ import axios from 'axios';
 import CodeEditor from './CodeEditor';
 import GradeResult from './GradeResult';
 
+
 const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
   const [showHint, setShowHint] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -12,7 +13,9 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
   const handleGrade = async () => {
     setIsGrading(true);
     try {
+      console.log(userAnswer);
       const response = await axios.post('http://localhost:8000/api/quiz/grade', {
+        id: quizContent.id,
         source_language: quizContent.source_language,
         target_language: quizContent.target_language,
         difficulty: quizContent.difficulty,
@@ -22,6 +25,7 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
         withCredentials: true
       });
       setGradeResult(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error grading quiz:', error);
       alert('퀴즈 채점 중 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -34,11 +38,12 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
     <div className="card mt-3 mb-5">
       <div className="card-body">
         <h5 className="card-title">생성된 문제</h5>
+        
         <p><strong>나의 주력 언어:</strong> {quizContent.source_language}</p>
         <p><strong>학습할 언어:</strong> {quizContent.target_language}</p>
         <p><strong>난이도:</strong> {quizContent.difficulty}</p>
         <p><strong>Category:</strong> {quizContent.category.type} - {quizContent.category.detail}</p>
-        <p><strong>문제:</strong> <br></br>{quizContent.quiz}</p>
+        <pre><b>문제:</b><code>{quizContent.quiz}</code></pre>
         <button 
           className="btn btn-secondary me-2"
           onClick={() => setShowHint(!showHint)}

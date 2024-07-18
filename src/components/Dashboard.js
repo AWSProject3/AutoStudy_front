@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UserInfo from './UserInfo';
@@ -6,6 +6,8 @@ import LogoutButton from './LogoutButton';
 import QuizGenerator from './QuizGenerator';
 import CreateProfile from './CreateProfile';
 import QuizHistory from './QuizHistory';
+import QnABoard from './QnABoard';
+
 
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -14,6 +16,7 @@ const Dashboard = () => {
   const [needsProfile, setNeedsProfile] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const navigate = useNavigate();
+  const [showQnABoard, setShowQnABoard] = useState(false);
 
   const fetchUserInfo = async () => {
     try {
@@ -89,9 +92,14 @@ const Dashboard = () => {
         <h1>Dashboard</h1>
         <div>
           {!needsProfile && (
-            <button className="btn btn-primary me-2" onClick={() => setShowHistory(!showHistory)}>
-              {showHistory ? 'Generate Quiz' : 'Quiz History'}
-            </button>
+            <>
+              <button className="btn btn-primary me-2" onClick={() => setShowHistory(!showHistory)}>
+                {showHistory ? 'Generate Quiz' : 'Quiz History'}
+              </button>
+              <button className="btn btn-success me-2" onClick={() => setShowQnABoard(!showQnABoard)}>
+                {showQnABoard ? 'Back to Dashboard' : 'Go to Q&A Board'}
+              </button>
+            </>
           )}
           <LogoutButton />
         </div>
@@ -99,10 +107,17 @@ const Dashboard = () => {
       <UserInfo userInfo={userInfo} />
       {needsProfile ? (
         <CreateProfile onProfileCreated={handleProfileCreated} />
-      ) : showHistory ? (
-        <QuizHistory />
       ) : (
-        <QuizGenerator />
+        <>
+          {showQnABoard && (
+            <Suspense fallback={<div>Loading Q&A Board...</div>}>
+              <QnABoard />
+            </Suspense>
+          )}
+          {!showQnABoard && (
+            showHistory ? <QuizHistory /> : <QuizGenerator />
+          )}
+        </>
       )}
     </div>
   );

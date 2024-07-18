@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import QuizResult from './QuizResult'; 
 
-const QuizCard = ({ quiz, index }) => {
+const QuizCard = ({ quiz, id }) => {
   const [showDetails, setShowDetails] = useState(false);
+
+  const [showResult, setShowResult] = useState(false);
 
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <h5 className="card-title">Quiz #{index + 1}</h5>
+        <h5 className="card-title">Quiz #{id}</h5>
         <p className="card-text">{quiz.quiz}</p>
         <p className="card-text"><strong>Difficulty:</strong> {quiz.difficulty}</p>
-        <button className="btn btn-primary me-2" onClick={() => setShowDetails(!showDetails)}>
-          {showDetails ? 'Hide Details' : 'Show Details'}
-        </button>
-        <button className="btn btn-secondary" disabled>Grade Result</button>
+        <div className="d-flex justify-content-start align-items-center">
+          <button 
+            className="btn btn-primary me-2" 
+            onClick={() => setShowDetails(!showDetails)}
+          >
+            {showDetails ? 'Hide Details' : 'Show Details'}
+          </button>
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => setShowResult(!showResult)}
+          >
+            {showResult ? 'Hide Result' : 'Show Result'}
+          </button>
+        </div>
         
         {showDetails && (
           <div className="mt-3">
@@ -25,6 +38,12 @@ const QuizCard = ({ quiz, index }) => {
             <pre>{quiz.hint.source_language_code}</pre>
             <h6>Answer:</h6>
             <pre>{quiz.answer}</pre>
+          </div>
+        )}
+
+        {showResult && (
+          <div className="mt-3">
+            <QuizResult quizId={id} />
           </div>
         )}
       </div>
@@ -73,12 +92,12 @@ const QuizHistory = () => {
     return (
       <div>
         <h2>Quiz History</h2>
-        {currentQuizzes.map((quiz, index) => (
-          <QuizCard 
-            key={index} 
+        {currentQuizzes.map((quiz) => (
+            <QuizCard 
+            key={quiz.id} 
             quiz={quiz} 
-            index={quizzes.length - ((currentPage - 1) * quizzesPerPage + index)} 
-          />
+            id={quiz.id} 
+            />
         ))}
         <nav>
           <ul className="pagination">
