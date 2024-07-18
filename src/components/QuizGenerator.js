@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import QuizForm from './QuizForm';
 import QuizDisplay from './QuizDisplay';
@@ -12,7 +12,7 @@ const QuizGenerator = () => {
   const [userAnswer, setUserAnswer] = useState('');
   const navigate = useNavigate();
 
-  const handleGenerateQuiz = async (sourceLanguage, targetLanguage, difficulty) => {
+  const handleGenerateQuiz = useCallback(async (sourceLanguage, targetLanguage, difficulty) => {
     setIsLoading(true);
     try {
       const response = await axios.post(`${API_URL}/api/quiz/generate`, {
@@ -33,7 +33,7 @@ const QuizGenerator = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [navigate]);
 
   return (
     <div>

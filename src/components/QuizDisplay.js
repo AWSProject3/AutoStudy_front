@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import CodeEditor from './CodeEditor';
 import GradeResult from './GradeResult';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -10,7 +11,7 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [gradeResult, setGradeResult] = useState(null);
   const [isGrading, setIsGrading] = useState(false);
-  const navigate = navigate();
+  const navigate = useNavigate();
 
   const handleGrade = async () => {
     setIsGrading(true);
@@ -42,41 +43,69 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
   };
 
   return (
-    <div className="card mt-3 mb-5">
+    <div className="card mt-3 mb-5 bg-light text-dark">
       <div className="card-body">
         <h5 className="card-title">생성된 문제</h5>
+        <hr />
+        <div className="mb-3">
+          <p><strong>나의 주력 언어:</strong> {quizContent.source_language}</p>
+          <p><strong>학습할 언어:</strong> {quizContent.target_language}</p>
+          <p><strong>난이도:</strong> {quizContent.difficulty}</p>
+          <p><strong>Category:</strong> {quizContent.category.type} - {quizContent.category.detail}</p>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <pre className="bg-dark text-light p-2 rounded" style={{
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowWrap: 'break-word',
+              overflow: 'auto',
+              maxHeight: '300px'
+            }}>
+              {quizContent.quiz}
+            </pre>
+        </div>
+        <div className="d-flex justify-content-start align-items-center mb-3">
+          <button 
+            className="btn btn-outline-info me-2"
+            onClick={() => setShowHint(!showHint)}
+          >
+            {showHint ? '힌트 숨기기' : '힌트 보기'}
+          </button>
+          <button 
+            className="btn btn-outline-success"
+            onClick={() => setShowAnswer(!showAnswer)}
+          >
+            {showAnswer ? '정답 숨기기' : '정답 보기'}
+          </button>
+        </div>
         
-        <p><strong>나의 주력 언어:</strong> {quizContent.source_language}</p>
-        <p><strong>학습할 언어:</strong> {quizContent.target_language}</p>
-        <p><strong>난이도:</strong> {quizContent.difficulty}</p>
-        <p><strong>Category:</strong> {quizContent.category.type} - {quizContent.category.detail}</p>
-        <pre><b>문제:</b><code>{quizContent.quiz}</code></pre>
-        <button 
-          className="btn btn-secondary me-2"
-          onClick={() => setShowHint(!showHint)}
-        >
-          {showHint ? '힌트 숨기기' : '힌트 보기'}
-        </button>
         {showHint && (
-          <div>
-            <p><strong>Hint:</strong> {quizContent.hint.describe}</p>
-            <pre>{quizContent.hint.source_language_code}</pre>
+          <div className="mb-3">
+            <hr />
+            <h6>Hint:</h6>
+            <p>{quizContent.hint.describe}</p>
+            <pre className="bg-dark text-light p-2 rounded">{quizContent.hint.source_language_code}</pre>
           </div>
         )}
-        <button 
-          className="btn btn-secondary"
-          onClick={() => setShowAnswer(!showAnswer)}
-        >
-          {showAnswer ? '정답 숨기기' : '정답 보기'}
-        </button>
-        {showAnswer && <pre><strong>Answer:</strong> <br></br>{quizContent.answer}</pre>}
+
+        {showAnswer && (
+          <div className="mb-3">
+            <hr />
+            <h6>Answer:</h6>
+            <pre className="bg-dark text-light p-2 rounded">{quizContent.answer}</pre>
+          </div>
+        )}
         
-        <h6 className="mt-4">당신의 답변:</h6>
-        <CodeEditor
-          language={quizContent.target_language.toLowerCase()}
-          value={userAnswer}
-          onChange={setUserAnswer}
-        />
+        <hr />
+        <div className="mb-3">
+          <h6>당신의 답변:</h6>
+          <CodeEditor
+            language={quizContent.target_language.toLowerCase()}
+            value={userAnswer}
+            onChange={setUserAnswer}
+          />
+        </div>
         <button 
           className="btn btn-primary mt-3" 
           onClick={handleGrade}
@@ -85,7 +114,12 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
           {isGrading ? '채점 중...' : '채점하기'}
         </button>
         
-        {gradeResult && <GradeResult result={gradeResult} />}
+        {gradeResult && (
+          <div className="mt-3">
+            <hr />
+            <GradeResult result={gradeResult} />
+          </div>
+        )}
       </div>
     </div>
   );

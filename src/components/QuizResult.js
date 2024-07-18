@@ -40,56 +40,87 @@ const QuizResult = ({ quizId }) => {
     }
   };
 
-  if (loading) return <div>Loading result...</div>;
+  if (loading) return <div className="text-center">Loading result...</div>;
   
   if (error) return <div className="alert alert-danger">{error}</div>;
   
   if (noResult) return <div className="alert alert-info">No result available for this quiz.</div>;
 
   return result ? (
-    <div className="quiz-result">
-      <h6>Quiz Result:</h6>
-      <p><strong>Total Score:</strong> {result.total_score}</p>
-      
-      <h6>Detailed Scores:</h6>
-      <ul>
-        {Object.entries(result.score).map(([key, value]) => (
-          value !== null && <li key={key}><strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}</li>
-        ))}
-      </ul>
-
-      <h6>Summary:</h6>
-      <p>{result.summary}</p>
-
-      <h6>Detailed Feedback:</h6>
-      <ul>
-        {Object.entries(result.detailed_feedback).map(([key, value]) => (
-          value !== null && <li key={key}><strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}</li>
-        ))}
-      </ul>
-
-      <h6>Positive Feedback:</h6>
-      <p>{result.positive_feedback}</p>
-
-      <h6>Suggestions:</h6>
-      <ul>
-        {result.suggestions.map((suggestion, index) => (
-          <li key={index}>{suggestion}</li>
-        ))}
-      </ul>
-
-      <h6>Best Practice Code:</h6>
-      <pre>{result.best_practice_code}</pre>
-
-      <h6>Best Practice Explanation:</h6>
-      <p>{result.best_practice_explanation}</p>
-
-      {result.user_input_code && (
-        <>
-          <h6>Your Code:</h6>
-          <pre>{result.user_input_code}</pre>
-        </>
-      )}
+    <div className="card bg-light">
+      <div className="card-body">
+        <h5 className="card-title">Quiz Result</h5>
+        <hr />
+        <div className="mb-3">
+          <h6>총점:</h6>
+          <p className="font-weight-bold">{result.total_score}/100</p>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>세부 점수:</h6>
+          <ul className="list-group">
+            {Object.entries(result.score).map(([key, value]) => (
+              value !== null && (
+                <li key={key} className="list-group-item d-flex justify-content-between align-items-center">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                  <span className="badge bg-primary rounded-pill">{value}</span>
+                </li>
+              )
+            ))}
+          </ul>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>요약:</h6>
+          <p>{result.summary}</p>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>상세 피드백:</h6>
+          <ul className="list-group">
+            {Object.entries(result.detailed_feedback).map(([key, value]) => (
+              value !== null && (
+                <li key={key} className="list-group-item">
+                  <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
+                </li>
+              )
+            ))}
+          </ul>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>긍정적 피드백:</h6>
+          <p>{result.positive_feedback}</p>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>제안사항:</h6>
+          <ul className="list-group">
+            {result.suggestions.map((suggestion, index) => (
+              <li key={index} className="list-group-item">{suggestion}</li>
+            ))}
+          </ul>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>모범 사례 코드:</h6>
+          <pre className="bg-dark text-light p-2 rounded">{result.best_practice_code}</pre>
+        </div>
+        <hr />
+        <div className="mb-3">
+          <h6>모범 사례 설명:</h6>
+          <p>{result.best_practice_explanation}</p>
+        </div>
+        {result.user_input_code && (
+          <>
+            <hr />
+            <div className="mb-3">
+              <h6>내가 했던 답변:</h6>
+              <pre className="bg-dark text-light p-2 rounded">{result.user_input_code}</pre>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   ) : null;
 };

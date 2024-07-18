@@ -82,13 +82,13 @@ const Dashboard = () => {
     setShowQnABoard(false);
     setShowUserInfo(true);
   };
-
+  
   const handleShowHistory = () => {
     setShowHistory(true);
     setShowQnABoard(false);
     setShowUserInfo(false);
   };
-
+  
   const handleShowQnABoard = () => {
     setShowHistory(false);
     setShowQnABoard(true);
@@ -118,10 +118,10 @@ const Dashboard = () => {
               </button>
               {!needsProfile && (
                 <>
-                  <button className="btn btn-outline-light mb-2 text-start" onClick={handleShowHistory}>
-                    <i className="bi bi-clock-history me-2"></i> {showHistory ? 'Generate Quiz' : 'Quiz History'}
+                  <button className="btn btn-outline-light mb-2 text-start" onClick={showHistory ? handleShowDashboard : handleShowHistory}>
+                    <i className="bi bi-clock-history me-2"></i> {showHistory ? 'Back to Dashboard' : 'Quiz History'}
                   </button>
-                  <button className="btn btn-outline-light mb-2 text-start" onClick={handleShowQnABoard}>
+                  <button className="btn btn-outline-light mb-2 text-start" onClick={showQnABoard ? handleShowDashboard : handleShowQnABoard}>
                     <i className="bi bi-chat-dots me-2"></i> {showQnABoard ? 'Back to Dashboard' : 'Q&A Board'}
                   </button>
                 </>
@@ -136,12 +136,11 @@ const Dashboard = () => {
             <CreateProfile onProfileCreated={handleProfileCreated} />
           ) : (
             <>
-              {showQnABoard && (
+              {showQnABoard ? (
                 <Suspense fallback={<div>Loading Q&A Board...</div>}>
                   <QnABoard />
                 </Suspense>
-              )}
-              {!showQnABoard && (
+              ) : (
                 showHistory ? <QuizHistory /> : <QuizGenerator />
               )}
             </>

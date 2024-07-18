@@ -10,7 +10,7 @@ function App() {
     <Router>
       <div className="App bg-dark text-light min-vh-100">
         <header className="bg-black text-white text-center py-5">
-          <h1>Wellcome to AutoStudy</h1>
+          <h1>AutoStudy</h1>
         </header>
         <main className="container mt-5">
           <Routes>

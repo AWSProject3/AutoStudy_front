@@ -41,7 +41,7 @@ const QuizForm = ({ onGenerateQuiz, isLoading }) => {
               </select>
             </div>
             <div className="col-md-4">
-              <label htmlFor="difficulty" className="form-label">Difficulty</label>
+              <label htmlFor="difficulty" className="form-label">난이도</label>
               <select 
                 id="difficulty"
                 className="form-select" 

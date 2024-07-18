@@ -14,11 +14,11 @@ const LoginButton = () => {
 
   return (
     <div className="container d-flex align-items-center justify-content-center" style={{ height: '30vh' }}>
-      <div className="card shadow-sm" style={{ width: '18rem' }}>
+      <div className="card shadow-sm bg-light text-dark" style={{ width: '18rem' }}>
         <div className="card-body text-center">
           <h5 className="card-title mb-4">Welcome</h5>
           <p className="card-text mb-4">Please login to continue</p>
-          <button className="btn btn-primary btn-lg w-100" onClick={handleLogin}>
+          <button className="btn btn-outline-dark btn-lg w-100" onClick={handleLogin}>
             로그인
           </button>
         </div>
