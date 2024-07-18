@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+
+const API_URL = process.env.REACT_APP_API_URL;
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+
 const QnABoard = () => {
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
@@ -19,7 +23,7 @@ const QnABoard = () => {
         }
 
         console.log('Attempting to connect WebSocket...');
-        ws.current = new WebSocket('ws://localhost:8000/api/qna/ws');
+        ws.current = new WebSocket(`ws://${API_DOMAIN}/api/qna/ws`);
 
         ws.current.onopen = () => {
             console.log('WebSocket connected');

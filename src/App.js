@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App bg-dark text-light min-vh-100">
         <header className="bg-black text-white text-center py-5">
           <h1>Wellcome to AutoStudy</h1>
         </header>

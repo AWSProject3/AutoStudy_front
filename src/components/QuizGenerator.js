@@ -4,6 +4,8 @@ import QuizForm from './QuizForm';
 import QuizDisplay from './QuizDisplay';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const QuizGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [quizContent, setQuizContent] = useState(null);
@@ -13,7 +15,7 @@ const QuizGenerator = () => {
   const handleGenerateQuiz = async (sourceLanguage, targetLanguage, difficulty) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/api/quiz/generate', {
+      const response = await axios.post(`${API_URL}/api/quiz/generate`, {
         source_language: sourceLanguage,
         target_language: targetLanguage,
         difficulty: difficulty

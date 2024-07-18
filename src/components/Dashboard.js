@@ -9,6 +9,8 @@ import QuizHistory from './QuizHistory';
 import QnABoard from './QnABoard';
 
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
@@ -17,10 +19,11 @@ const Dashboard = () => {
   const [showHistory, setShowHistory] = useState(false);
   const navigate = useNavigate();
   const [showQnABoard, setShowQnABoard] = useState(false);
+  const [showUserInfo, setShowUserInfo] = useState(true);
 
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/auth/user_details_by_token', {
+      const response = await axios.get(`${API_URL}/api/auth/user_details_by_token`, {
         withCredentials: true
       });
       
@@ -45,7 +48,7 @@ const Dashboard = () => {
 
   const checkProfile = async () => {
     try {
-      const profileResponse = await axios.get('http://localhost:8000/api/profile/me', {
+      const profileResponse = await axios.get(`${API_URL}/api/profile/me`, {
         withCredentials: true
       });
       
@@ -62,7 +65,7 @@ const Dashboard = () => {
 
   const handleProfileCreated = async (language) => {
     try {
-      const createProfileResponse = await axios.post('http://localhost:8000/api/profile/create', 
+      const createProfileResponse = await axios.post(`${API_URL}/api/profile/create`, 
         { language }, 
         { withCredentials: true }
       );
@@ -72,6 +75,24 @@ const Dashboard = () => {
       console.error('Error creating profile:', err);
       setError('Failed to create profile. Please try again.');
     }
+  };
+
+  const handleShowDashboard = () => {
+    setShowHistory(false);
+    setShowQnABoard(false);
+    setShowUserInfo(true);
+  };
+
+  const handleShowHistory = () => {
+    setShowHistory(true);
+    setShowQnABoard(false);
+    setShowUserInfo(false);
+  };
+
+  const handleShowQnABoard = () => {
+    setShowHistory(false);
+    setShowQnABoard(true);
+    setShowUserInfo(false);
   };
 
   useEffect(() => {
@@ -87,38 +108,46 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Dashboard</h1>
-        <div>
-          {!needsProfile && (
+    <div className="container-fluid p-0">
+      <div className="row g-0">
+        <div className="col-md-3 col-lg-2 bg-dark min-vh-100">
+          <div className="p-3">
+            <div className="nav flex-column">
+              <button className="btn btn-outline-light mb-2 text-start" onClick={handleShowDashboard}>
+                <i className="bi bi-house-door me-2"></i> Dashboard
+              </button>
+              {!needsProfile && (
+                <>
+                  <button className="btn btn-outline-light mb-2 text-start" onClick={handleShowHistory}>
+                    <i className="bi bi-clock-history me-2"></i> {showHistory ? 'Generate Quiz' : 'Quiz History'}
+                  </button>
+                  <button className="btn btn-outline-light mb-2 text-start" onClick={handleShowQnABoard}>
+                    <i className="bi bi-chat-dots me-2"></i> {showQnABoard ? 'Back to Dashboard' : 'Q&A Board'}
+                  </button>
+                </>
+              )}
+              <LogoutButton className="btn btn-outline-danger text-start" />
+            </div>
+          </div>
+        </div>
+        <div className="col-md-9 col-lg-10 p-4">
+          {showUserInfo && <UserInfo userInfo={userInfo} />}
+          {needsProfile ? (
+            <CreateProfile onProfileCreated={handleProfileCreated} />
+          ) : (
             <>
-              <button className="btn btn-primary me-2" onClick={() => setShowHistory(!showHistory)}>
-                {showHistory ? 'Generate Quiz' : 'Quiz History'}
-              </button>
-              <button className="btn btn-success me-2" onClick={() => setShowQnABoard(!showQnABoard)}>
-                {showQnABoard ? 'Back to Dashboard' : 'Go to Q&A Board'}
-              </button>
+              {showQnABoard && (
+                <Suspense fallback={<div>Loading Q&A Board...</div>}>
+                  <QnABoard />
+                </Suspense>
+              )}
+              {!showQnABoard && (
+                showHistory ? <QuizHistory /> : <QuizGenerator />
+              )}
             </>
           )}
-          <LogoutButton />
         </div>
       </div>
-      <UserInfo userInfo={userInfo} />
-      {needsProfile ? (
-        <CreateProfile onProfileCreated={handleProfileCreated} />
-      ) : (
-        <>
-          {showQnABoard && (
-            <Suspense fallback={<div>Loading Q&A Board...</div>}>
-              <QnABoard />
-            </Suspense>
-          )}
-          {!showQnABoard && (
-            showHistory ? <QuizHistory /> : <QuizGenerator />
-          )}
-        </>
-      )}
     </div>
   );
 };

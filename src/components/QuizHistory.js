@@ -24,7 +24,7 @@ const QuizCard = ({ quiz, id }) => {
             className="btn btn-secondary" 
             onClick={() => setShowResult(!showResult)}
           >
-            {showResult ? 'Hide Result' : 'Show Result'}
+            {showResult ? 'Hide' : 'Result'}
           </button>
         </div>
         

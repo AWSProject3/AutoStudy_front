@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const QuizResult = ({ quizId }) => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ const QuizResult = ({ quizId }) => {
     setError(null);
     setNoResult(false);
     try {
-      const response = await axios.get(`http://localhost:8000/api/quiz/result/${quizId}`, {
+      const response = await axios.get(`${API_URL}/api/quiz/result/${quizId}`, {
         withCredentials: true
       });
       if (response.data === null || response.data === undefined) {

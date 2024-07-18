@@ -3,6 +3,7 @@ import axios from 'axios';
 import CodeEditor from './CodeEditor';
 import GradeResult from './GradeResult';
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
   const [showHint, setShowHint] = useState(false);
@@ -14,7 +15,7 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
     setIsGrading(true);
     try {
       console.log(userAnswer);
-      const response = await axios.post('http://localhost:8000/api/quiz/grade', {
+      const response = await axios.post(`${API_URL}/api/quiz/grade`, {
         id: quizContent.id,
         source_language: quizContent.source_language,
         target_language: quizContent.target_language,
