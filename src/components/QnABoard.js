@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useNavigate } from 'react-router-dom';
 
 
-const API_URL = process.env.REACT_APP_API_URL;
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
 const QnABoard = () => {
@@ -11,6 +11,7 @@ const QnABoard = () => {
     const [isConnected, setIsConnected] = useState(false);
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
+    const navigate = useNavigate();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -52,9 +53,14 @@ const QnABoard = () => {
         ws.current.onclose = (event) => {
             console.log('WebSocket disconnected:', event.code, event.reason);
             setIsConnected(false);
-            setTimeout(connectWebSocket, 3000);  // 3초 후 재연결 시도
+            if (event.code === 1001) {  // 401 Unauthorized
+                alert('세션이 만료되었습니다. 다시 로그인해 주세요.');
+                navigate('/');  // 로그인 페이지로 리다이렉트
+            } else {
+                setTimeout(connectWebSocket, 3000);  // 3초 후 재연결 시도
+            }
         };
-    }, []);
+    }, [navigate]);
 
     const disconnectWebSocket = useCallback(() => {
         if (ws.current) {
@@ -87,7 +93,7 @@ const QnABoard = () => {
         <div className="container mt-4 mb-4">
             <h2>Q&A Board</h2>
             <div className="card">
-                <div className="card-body" style={{height: '400px', overflowY: 'auto'}}>
+                <div className="card-body" style={{height: '600px', overflowY: 'auto'}}>
                     {messages.map((message, index) => (
                         <div
                         key={index}

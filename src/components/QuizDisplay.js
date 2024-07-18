@@ -10,6 +10,7 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [gradeResult, setGradeResult] = useState(null);
   const [isGrading, setIsGrading] = useState(false);
+  const navigate = navigate();
 
   const handleGrade = async () => {
     setIsGrading(true);
@@ -29,7 +30,12 @@ const QuizDisplay = ({ quizContent, userAnswer, setUserAnswer }) => {
       console.log(response.data);
     } catch (error) {
       console.error('Error grading quiz:', error);
-      alert('퀴즈 채점 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      if (error.response && error.response.status === 401) {
+        alert('세션이 만료되었습니다. 다시 로그인해 주세요.');
+        navigate('/');  // 로그인 페이지로 리다이렉트
+      } else {
+        alert('퀴즈 채점 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      }
     } finally {
       setIsGrading(false);
     }
