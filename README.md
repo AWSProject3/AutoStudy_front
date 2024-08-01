@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# AutoStudy: LLM을 통한 프로그래밍 언어 학습 플랫폼
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+### **프로젝트 소개**
 
-In the project directory, you can run:
+- AutoStudy는 개발자들이 새로운 프로그래밍 언어를 효과적으로 학습할 수 있도록 돕는 학습 플랫폼입니다.
+- 이 서비스는 사용자의 주력 언어를 활용해 새로운 언어 학습의 진입 장벽을 낮추고, '불안지대' 학습 이론을 적용하여 효과적인 학습을 유도합니다.
+- 사용자는 자신의 주력 언어와 학습하고자 하는 새 언어를 선택하고, 시스템은 주력 언어의 모범 사례와 함께 새 언어로 해결해야 할 문제를 제시합니다.
+- 즉각적인 피드백, 점수 평가, 그리고 히스토리 기능을 통해 사용자의 지속적인 성장을 지원합니다.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### **UserFlow**
+![](../img/userflow.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+### **Detail**
+- 로그인 화면
+![](/img/%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%99%94%EB%A9%B4.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Cognito 인증 화면
+![](/img/cognito%20oidc%20%ED%99%94%EB%A9%B4.png)
 
-### `npm run build`
+- 초기 프로필 생성 화면
+![](/img/%EC%B4%88%EA%B8%B0%20%ED%94%84%EB%A1%9C%ED%95%84%ED%99%94%EB%A9%B4.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 메인 화면
+![](/img/%EB%AC%B8%EC%A0%9C%EC%83%9D%EC%84%B1%EC%A0%84%20%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 문제 생성
+![](/img/%EB%AC%B8%EC%9E%AC%EC%83%9D%EC%84%B1-%EB%A9%94%EC%9D%B8.png)
+![](/img/%EB%AC%B8%EC%A0%9C%EC%83%9D%EC%84%B1-%EC%A0%95%EB%8B%B5.png)
+![](/img/%EB%AC%B8%EC%A0%9C%EC%83%9D%EC%84%B1-%ED%9E%8C%ED%8A%B8.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+- 문제 체점
+![](/img/%EB%AC%B8%EC%A0%9C%20%EC%B2%B4%EC%A0%90.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 문제 히스토리
+![](/img/%EB%AC%B8%EC%A0%9C%20%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC1.png)
+![](/img/%EB%AC%B8%EC%A0%9C%20%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC2.png)
+![](/img/%EB%AC%B8%EC%A0%9C%20%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC3.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- QnA 화면
+![](/img/QnA.png)
